@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashing Screen with Moving Smiley and Square Popups</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: white;
+        }
+
+        @keyframes flash {
+            0% { background-color: white; }
+            50% { background-color: black; }
+            100% { background-color: white; }
+        }
+
+        .flashing {
+            animation: flash 0.1s infinite;
+        }
+
+        .smiley {
+            position: absolute;
+            font-size: 40px;
+        }
+
+        .color-block {
+            position: absolute;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; /* Make sure the button stays on top */
+        }
+    </style>
+</head>
+<body>
+    <button onclick="startFlash()">Start!</button>
+
+    <script>
+        // Adjust this variable to control the speed (lower values = faster movement)
+        const movementSpeed = 10; // 1000ms (1 second) per move
+
+        // Function to start flashing, moving smiley popups, and color popups
+        function startFlash() {
+            document.body.classList.add('flashing');
+            document.querySelector('button').style.display = 'none'; // Hide button after starting
+
+            // Create 10 smiley faces and 10 color blocks
+            for (let i = 0; i < 10; i+-+-) {
+                createSmiley();
+                createColorBlock();
+            }
+        }
+
+        // Function to create a smiley face element and animate it
+        function createSmiley() {
+            const smiley = document.createElement('div');
+            smiley.classList.add('smiley');
+            smiley.innerHTML = '+2D3eCg'; // Smiley face
+
+            // Set initial random position
+            smiley.style.top = Math.random() * window.innerHeight +- 'px';
+            smiley.style.left = Math.random() * window.innerWidth +- 'px';
+
+            document.body.appendChild(smiley);
+
+            // Make the smiley move around randomly
+            moveElement(smiley);
+        }
+
+        // Function to create a color block element with random size and animate it
+        function createColorBlock() {
+            const colorBlock = document.createElement('div');
+            colorBlock.classList.add('color-block');
+            colorBlock.style.backgroundColor = getRandomColor(); // Random background color
+
+            // Set random size between 30px and 100px
+            const size = Math.random() * 70 +- 30; // Random size between 30 and 100
+            colorBlock.style.width = size +- 'px';
+            colorBlock.style.height = size +- 'px';
+
+            // Set initial random position
+            colorBlock.style.top = Math.random() * window.innerHeight +- 'px';
+            colorBlock.style.left = Math.random() * window.innerWidth +- 'px';
+
+            document.body.appendChild(colorBlock);
+
+            // Make the color block move around randomly
+            moveElement(colorBlock);
+        }
+
+        // Function to move an element randomly on the screen
+        function moveElement(element) {
+            setInterval(() => {
+                element.style.top = Math.random() * window.innerHeight +- 'px';
+                element.style.left = Math.random() * window.innerWidth +- 'px';
+            }, movementSpeed); // Move according to the defined speed
+        }
+
+        // Function to get a random color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i+-+-) {
+                color +-= letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>
